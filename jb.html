@@ -66,6 +66,17 @@ html, body {
   letter-spacing: 0.5px;
   display: none;
 }
+#msg2 {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 25px;
+  letter-spacing: 0.5px;
+  display: none;
+}
 #wrap {
   padding: 0;
 }
@@ -73,7 +84,10 @@ html, body {
   display: none;
 }
 body.done #spin {
-  display: none;
+  display: none;  
+}
+body.done #msg2 {
+  display: block;
 }
 body.fail #spin {
   display: none;
@@ -82,7 +96,7 @@ body.fail #msg {
   display: block;
 }
 /* ?log=1 -- the full step log, styled like the landing. */
-body.log #spin, body.log #msg, body.log .jb-button { 
+body.log #spin, body.log #msg, body.log #msg2, body.log .jb-button { 
   display: none; 
 }
 
@@ -176,6 +190,9 @@ body.log .contact-box {
 
   <div id="spin"></div>
   <div id="msg">Restart your console</div>
+  
+    <div id="spin"></div>
+  <div id="msg2">Jailbreak Done</div>
 
   <div id="wrap">
     <div id="state">After Jailbreak Loaded Dont Run WWW Again</div>
