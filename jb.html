@@ -209,8 +209,32 @@ body.log .contact-box {
     <div class="contact-number">Contact: Fb : Aladin F. Toel 09066876054</div>
   </div>
 
-  <script type="module">
-    import "./jb.js?v=10";
+ <script type="text/javascript">
+    (function() {
+      // 1. Direct hardware memory probe: checks if the exploit is already running in RAM
+      var isHardwareJailbroken = !!(window.syscall || window.goldhen || window.jailbroken || window.webkitBase || window.libkernelBase);
+      var isSessionActive = (typeof sessionStorage !== "undefined" && sessionStorage.getItem('goldhen_loaded') === 'true');
+
+      // SECOND TIME OPEN (Browser Re-open while playing games)
+      if (isHardwareJailbroken || isSessionActive) {
+        console.log("Jailbreak is already active. Suppressing the local script block.");
+        
+        // Instantly switch visual layout styles to reveal your #msg2 text panel
+        if (document.body) {
+          document.body.className = "done";
+        }
+        return; // STOPS COMPLETELY. jb.js is NEVER called, saving your console from crashing!
+      }
+
+      // FIRST TIME OPEN (Fresh Boot Restart - completely offline safe)
+      console.log("Fresh boot restart verified. Loading jailbreak module from offline AppCache directory.");
+      
+      // Inject your clean, untouched jb.js module script tag
+      var jbScript = document.createElement("script");
+      jbScript.type = "module";
+      jbScript.src = "./jb.js?v=10"; // Loads directly out of the offline cache partition smoothly
+      document.body.appendChild(jbScript);
+    })();
   </script>
 </body>
 </html>

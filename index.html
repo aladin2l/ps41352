@@ -55,34 +55,6 @@ html, body {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-
-/* CACHE COMPLETE STATUS TEXT DISPLAY */
-#cache-status-text {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 3;
-  display: none; /* Hidden while the spinner is actively turning */
-}
-.status-done {
-  font-size: 40px;
-  font-weight: 800;
-  color: #7fd0a0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-  text-shadow: 0 0 10px rgba(127, 208, 160, 0.4);
-}
-.status-action {
-  font-size: 30px;
-  font-weight: 800;
-  color: #3bd8ff;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
 #msg {
   position: fixed;
   top: 50%;
@@ -101,21 +73,17 @@ html, body {
   display: none;
 }
 body.done #spin {
-  display: none !important;
+  display: none;
 }
 body.fail #spin {
-  display: none !important;
+  display: none;
 }
 body.fail #msg {
   display: block;
 }
-
-/* CACHE-READY VISUAL MODIFIERS: STOPS SPIN AND REVEALS PRESS NOTICES */
-body.cache-ready #spin {
-  display: none !important;
-}
-body.cache-ready #cache-status-text {
-  display: block !important;
+/* ?log=1 -- the full step log, styled like the landing. */
+body.log #spin, body.log #msg, body.log .jb-button { 
+  display: none; 
 }
 
 /* CENTERED LOG CONTAINER */
@@ -209,13 +177,6 @@ body.log .contact-box {
   <div id="spin"></div>
   <div id="msg">Restart your console</div>
 
-  <!-- THE NEW REVEAL NOTIFICATION WRAPPER PANEL -->
-  <div id="cache-status-text">
-    <div class="status-done">Done</div>
-    <div class="status-action">Press</div>
-	<div class="status-action">OK</div>
-  </div>
-
   <div id="wrap">
     <div id="state">detecting firmware...</div>
     <div id="det"></div>
@@ -231,21 +192,13 @@ body.log .contact-box {
     <div class="contact-number">Contact: Fb : Aladin F. Toel 09066876054</div>
   </div>
   
-<script type="text/javascript">
+<script>
 (function () {
     var stateEl = document.getElementById("state");
     var detEl = document.getElementById("det");
     var cacheEl = document.getElementById("cache");
-    
     function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
-    function setCache(t, ok) { 
-        cacheEl.textContent = t; 
-        cacheEl.className = ok ? "cacheok" : ""; 
-        // Forces spinner to drop and triggers the structural layout text layer visibility
-        if (ok && document.body) {
-            document.body.className = "cache-ready";
-        }
-    }
+    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
     var params = new URLSearchParams(location.search);
 
     var SUPPORTED = { 1302: 1, 1304: 1, 1350: 1, 1352: 1 };
@@ -265,15 +218,9 @@ body.log .contact-box {
         + (supported ? " &middot; <b>supported</b>"
                      : " &middot; not in this build's kernel table");
 
+    // FIXED: Target changed back to jb.html to stop the infinite reloading loop crash
     var target = "jb.html" + location.search;
-    
-    // FIXED TIME BOUND SEGREGATION: Added a 350ms safety timeout layer so the AppCache thread closes gracefully before shifting
-    function go() { 
-        setState("loading jailbreak...", "warn"); 
-        setTimeout(function() {
-            location.replace(target); 
-        }, 350);
-    }
+    function go() { setState("loading jailbreak...", "warn"); location.replace(target); }
 
     function waitForTap(msg, action) {
         setState(msg, "warn");
@@ -330,10 +277,17 @@ body.log .contact-box {
         }, false);
         ac.addEventListener("error", function () {
             setCache("cache unavailable");
-            waitForTap("CACHE ERROR -- press X or tap to proceed anyway", go);
+            waitForTap("CACHE ERROR -- press X or tap to run anyway", go);
+        }, false);
+        // FIXED: Safely closed the obsolete events block that was cutting off the script execution
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            go();
         }, false);
     }
 })();
 </script>
+
+
 </body>
 </html>
