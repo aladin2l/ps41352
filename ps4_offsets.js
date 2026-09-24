@@ -339,7 +339,7 @@ export const PS4 = {
     k_sysent_661: 0x110a760,
     k_jmp_rsi: 0x47b31,
 
-    payload: "payload.bin",
+    payload: "goldhen.bin",
     k_oid_kern_file: 0x1a2f8a0,
     k_oid_maxfilesperproc: 0x1a2f950,
     k_oid_maxprocperuid: 0x1a3ba88,
@@ -567,7 +567,7 @@ PS4["13.52"] = Object.assign({}, PS4["13.50"], {
     "state=663-LIVE-on-hardware shares=13.50 (webkit+libkernel) " +
     "kernel_rvas=MEASURED-from-kernel_1352.elf (kdump5 tier1 36MB pass=39/0, " +
     "kderive 16/16 recipes) kpatch=1352.bin-24-sites-verified-OFFLINE-ONLY " +
-    "payload=payload2.bin-PS4HEN-native-1352 (patched-GoldHEN KP'd 2/2) " +
+    "payload=goldhen.bin-PS4HEN-native-1352 (patched-GoldHEN KP'd 2/2) " +
     "bug=663",
 });
 
