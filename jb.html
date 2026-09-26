@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" manifest="cache.appcache">
 <head>
@@ -19,8 +20,8 @@ html, body {
   justify-content: center;
   gap: 12px;
   padding: 20px 15px;
-  background: linear-gradient(180deg, #10141d 0%, var(--bg-main, #0b0d10) 100%);
-  border-bottom: 1px solid var(--bg-accent, #1e2732);
+  background: linear-gradient(180deg, #10141d 0%, #0b0d10 100%);
+  border-bottom: 1px solid #1e2732;
 }
 #brand img {
   width: 160px;
@@ -31,51 +32,209 @@ html, body {
   font-size: 40px;
   font-weight: 800;
   letter-spacing: .08em;
-  color: var(--text-primary, #ffffff);
+  color: #ffffff;
   text-transform: uppercase;
   background: linear-gradient(90deg, #ffffff 0%, #a3b3cc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* running: a spinner under the brand. jb.js sets body.done / body.fail / body.log. */
+
+/* THE SPINNING LOADER CIRCLE */
 #spin {
   position: fixed;
   top: 50%;
   left: 50%;
   width: 140px;
   height: 140px;
-  margin: -74px 0 0 -74px; /* Centered layout offset balancing border thickness */
+  margin: -74px 0 0 -74px; 
   border: 4px solid #1e2732;
   border-top-color: #7fd0a0;
   border-radius: 50%;
   animation: spin 0.9s linear infinite;
-  display: block;
-  z-index: 1; /* Keeps the spinner behind the hollow button interactive field */
+  display: none; 
+  z-index: 1; 
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-#msg {
+
+/* THE RUNNING CIRCLE DESIGN (DASHED OUTER RIM) */
+#running-circle {
   position: fixed;
   top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
-  text-align: center;
-  font-size: 16px;
-  letter-spacing: 0.5px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 3px dashed #00d8ff;
+  background: transparent;
+  box-shadow: inset 0 0 15px rgba(0, 191, 255, 0.1), 0 0 10px #00bfff;
   display: none;
+  z-index: 1;
 }
-#msg2 {
+
+/* HIGH-END CARD OVERLAYS DESIGN BASE FOR DONE & FAIL STATES */
+.status-card {
   position: fixed;
   top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  box-sizing: border-box;
+  padding: 30px 24px;
+  background: #11151f;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
   text-align: center;
-  font-size: 25px;
-  letter-spacing: 0.5px;
   display: none;
+  z-index: 5;
+}
+
+/* PREMIUM "JAILBREAK FAILED" CARD PANELS EXCLUSIVES */
+#msg.status-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(208, 138, 127, 0.15);
+  border-color: rgba(208, 138, 127, 0.3);
+}
+.error-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: rgba(208, 138, 127, 0.1);
+  border: 2px solid #d08a7f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(208, 138, 127, 0.2);
+}
+.error-cross {
+  color: #d08a7f;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1;
+}
+.error-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.error-subtitle {
+  font-size: 16px;
+  color: #8b95a3;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+.error-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b0d10;
+  background: #d08a7f;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+/* PREMIUM "JAILBREAK DONE" SCREEN STYLING */
+#msg2.status-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(127, 208, 160, 0.15);
+}
+.success-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: rgba(127, 208, 160, 0.1);
+  border: 2px solid #7fd0a0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(127, 208, 160, 0.2);
+}
+.success-checkmark {
+  color: #7fd0a0;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1;
+}
+.success-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;	
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.success-subtitle {
+  font-size: 16px;
+  color: #8b95a3;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+.success-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b0d10;
+  background: #7fd0a0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* PREMIUM "JAILBREAK DONE" SCREEN STYLING */
+#msg3.status-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(127, 208, 160, 0.15);
+}
+.already-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: rgba(127, 208, 160, 0.1);
+  border: 2px solid #7fd0a0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(127, 208, 160, 0.2);
+}
+.already-checkmark {
+  color: #7fd0a0;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1;
+}
+.already-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffeb3b;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.already-subtitle {
+  font-size: 16px;
+  color: #8b95a3;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+.already-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b0d10;
+  background: #7fd0a0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 #wrap {
   padding: 0;
@@ -83,34 +242,33 @@ html, body {
 #state, #out {
   display: none;
 }
-body.done #spin {
-  display: none;  
-}
-body.done #msg2 {
-  display: block;
-}
-body.fail #spin {
-  display: none;
-}
-body.fail #msg {
-  display: block;
-}
-/* ?log=1 -- the full step log, styled like the landing. */
-body.log #spin, body.log #msg, body.log #msg2, body.log .jb-button { 
-  display: none; 
-}
+
+/* ACTIVE OPERATION CONTROLLERS */
+body.running #spin { display: block !important; border-top-color: #00d8ff !important; }
+body.running #running-circle { display: block !important; } 
+body.running .jb-button { display: none !important; }
+
+body.done #spin, body.done #running-circle, body.done .jb-button, body.done #wrap { display: none !important; }
+body.done #msg2 { display: block !important; }
+
+body.dones #spin, body.done #running-circle, body.done .jb-button, body.done #wrap { display: none !important; }
+body.dones #msg3 { display: block !important; }
+
+body.fail #spin, body.fail #running-circle, body.fail .jb-button, body.fail #wrap { display: none !important; }
+body.fail #msg { display: block !important; }
+
+body.log #spin, body.log #running-circle, body.log #msg, body.log #msg2, body.log #msg3, body.log .jb-button { display: none !important; }
 
 /* CENTERED LOG CONTAINER */
 #wrap { 
   position: fixed;
-  top: 75%;                 /* Placed safely below the 42% button zone */
+  top: 75%;
   left: 0;
   right: 0;
   text-align: center;
   box-sizing: border-box;
   padding: 0 18px;
 }
-
 #state { font-size: 22px; font-weight: 700; margin: 0 0 8px; display: block; }
 #det { font-size: 20px; color: #8b95a3; margin: 0 0 6px; }
 #det b { color: #c8ced8; font-weight: 600; }
@@ -189,10 +347,37 @@ body.log .contact-box {
   </div>
 
   <div id="spin"></div>
-  <div id="msg">Restart your console</div>
+  <div id="running-circle"></div>
   
-    <div id="spin"></div>
-  <div id="msg2">Jailbreak Done</div>
+  <!-- REPAIRED FAILURE PANEL: Uses exact matching framework cards -->
+  <div id="msg" class="status-card">
+    <div class="error-icon-wrapper">
+      <div class="error-cross">✗</div>
+    </div>
+    <div class="error-title">Jailbreak Failed</div>
+    <div class="error-subtitle">Try Again or Restart your PS4</div>
+    <div class="error-badge">System Error</div>
+  </div>
+
+  <!-- PREMIUM SUCCESS PANEL -->
+  <div id="msg2" class="status-card">
+    <div class="success-icon-wrapper">
+      <div class="success-checkmark">✓</div>
+    </div>
+    <div class="success-title">Jailbreak DONE</div>
+    <div class="success-subtitle">GoldHEN is fully active.<br>You can now safely exit to the dashboard.</div>
+    <div class="success-badge">System Ready</div>
+  </div>
+  
+  <!-- PREMIUM ALREADY RUNNING PANEL -->
+  <div id="msg3" class="status-card">
+    <div class="already-icon-wrapper">
+      <div class="already-checkmark">✓</div>
+    </div>
+    <div class="already-title">GoldHEN Already Loaded</div>
+    <div class="already-subtitle">GoldHEN is fully active.<br>You can now safely exit to the dashboard.</div>
+    <div class="already-badge">System Ready</div>
+  </div>
 
   <div id="wrap">
     <div id="state">After Jailbreak Loaded Dont Run WWW Again</div>
@@ -201,8 +386,9 @@ body.log .contact-box {
     <div id="out"></div>
   </div>
 
-  <button id="jeilbrek" class="jb-button" type="button">
-    <span class="power-icon"></span>
+   <!-- FIX: Added click event trigger handler to run manual restarts smoothly if needed -->
+   <button id="jeilbrek" class="jb-button" type="button" onclick="injectJailbreakEngine()">
+    <span class="power-icon">LAUNCH</span>
   </button> 
 
   <div class="contact-box">
@@ -210,8 +396,21 @@ body.log .contact-box {
   </div>
 
  <script type="text/javascript">
+    // Expose launcher injector globally so the button can invoke it manually on fallback loop clicks
+    window.injectJailbreakEngine = function() {
+      if (document.body.className === "running") return; // Avoid duplicate injections
+      
+      // FIX: Force visual layout state to "running" immediately to make the spinners show up and rotate!
+      document.body.className = "running";
+      console.log("Fresh boot restart verified. Loading jailbreak module from offline AppCache directory.");
+      
+      var jbScript = document.createElement("script");
+      jbScript.type = "module";
+      jbScript.src = "./jb.js?v=10"; 
+      document.body.appendChild(jbScript);
+    };
+
     (function() {
-      // 1. Direct hardware memory probe: checks if the exploit is already running in RAM
       var isHardwareJailbroken = !!(window.syscall || window.goldhen || window.jailbroken || window.webkitBase || window.libkernelBase);
       var isSessionActive = (typeof sessionStorage !== "undefined" && sessionStorage.getItem('goldhen_loaded') === 'true');
 
@@ -219,21 +418,19 @@ body.log .contact-box {
       if (isHardwareJailbroken || isSessionActive) {
         console.log("Jailbreak is already active. Suppressing the local script block.");
         
-        // Instantly switch visual layout styles to reveal your #msg2 text panel
+        // FIX: Redirected class assignment target from "done" to your yellow "dones" state (#msg3)!
         if (document.body) {
-          document.body.className = "done";
+          document.body.className = "dones";
         }
-        return; // STOPS COMPLETELY. jb.js is NEVER called, saving your console from crashing!
+        return; 
       }
 
-      // FIRST TIME OPEN (Fresh Boot Restart - completely offline safe)
-      console.log("Fresh boot restart verified. Loading jailbreak module from offline AppCache directory.");
-      
-      // Inject your clean, untouched jb.js module script tag
-      var jbScript = document.createElement("script");
-      jbScript.type = "module";
-      jbScript.src = "./jb.js?v=10"; // Loads directly out of the offline cache partition smoothly
-      document.body.appendChild(jbScript);
+      // FIRST TIME OPEN: Auto-trigger the spinning execution loader script directly on boot
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        window.injectJailbreakEngine();
+      } else {
+        window.addEventListener("DOMContentLoaded", window.injectJailbreakEngine);
+      }
     })();
   </script>
 </body>

@@ -42,11 +42,9 @@ function hostFail() {
 
 function hostAlready() {
   console.log("");
-  setTimeout(function() {
-    if (typeof document !== "undefined" && document.body) {
-      document.body.className = "done";
-    }
-  }, 50);
+  if (typeof document !== "undefined" && document.body) {
+    document.body.className = "dones";
+  }
 }
 //=====this is what i fix ========
 function post(tag, detail) {
@@ -84,15 +82,16 @@ function terse(s) {
   if (s.length > 140) s = s.slice(0, 140) + "...";
   return s;
 }
-
+//====edited=======
 const SHOW_LOG = params.get("log") === "1";
 if (SHOW_LOG && document.body) document.body.className = "log";
 function finishUI(ok) {
   if (ok) hostOk();
   else hostFail();
   if (SHOW_LOG || !document.body) return;
-  document.body.className = ok ? "done" : "fail";
+ document.body.className = ok === "already" ? "dones" : (ok ? "done" : "fail");
 }
+//====edited=======
 function mark(tag, detail) {
   const raw = detail;
   detail = terse(detail);
