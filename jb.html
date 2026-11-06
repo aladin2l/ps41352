@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PS4 Ormoc Jailbreaker</title>
+<style>
+:root {
+  --bg: #0b0d10;
+  --panel: #0e1116;
+  --sunk: #11151b;
+  --line: #1e2732;
+  --fg: #c8ced8;
+  --bright: #e6ebf2;
+  --dim: #7c8798;
+  --faint: #4d5765;
+  --ok: #7fd0a0;
+  --bad: #d08a7f;
+  --warn: #d8c07f;
+  --sans: "Segoe UI", system-ui, sans-serif;
+  --mono: Consolas, "DejaVu Sans Mono", monospace;
+}
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.45 var(--sans);
+}
+#brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 15px;
+  background: linear-gradient(180deg, #10141d 0%, #0b0d10 100%);
+  border-bottom: 1px solid #1e2732;
+}
+#brand img {
+  width: 160px;
+  height: 48px;
+  object-fit: contain;
+}
+#brand b {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: #ffffff;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff 0%, #a3b3cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#ramBox {
+  overflow: hidden;
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--sunk);
+  color: var(--ok);
+  font: 11px/1.4 var(--mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+#msg {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: none;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  z-index: 5;
+}
+body.fail #msg {
+  display: block;
+}
+body.done #msg {
+  display: block;
+  color: var(--ok);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+/* EXPANDED CONTAINER WIDTH: Increased max-width to 700px for wide screen real estate */
+#wrap {
+  position: fixed !important;
+  top: 55% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  width: 92% !important;
+  max-width: 700px !important;
+  padding: 0 !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+/* ACTIVE ENGINE STEP STATUS */
+#state {
+  display: block !important;
+  font-size: 15px !important;
+  color: var(--bright) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-top: 12px !important;
+  width: 100% !important;
+  text-align: center !important;
+}
+/* EXPANDED WINDOW HEIGHT: Double the old size (240px) to see far more layout history rows */
+#out {
+  display: block !important;
+  font: 12px/1.45 var(--mono) !important;
+  color: var(--dim) !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  text-align: left !important;
+  width: 100% !important;
+  height: 240px !important; /* Increased from 120px */
+  max-height: 240px !important; /* Increased from 120px */
+  min-height: 240px !important; /* Increased from 120px */
+  overflow-y: auto !important;
+  background: var(--sunk) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 6px !important;
+  padding: 12px 14px !important;
+  margin: 0 auto !important;
+}
+/* FIXED TV SAFE SCREEN POSITION FOR CONTACTS BANNER */
+.contact-box {
+  position: fixed !important;
+  bottom: 50px !important;
+  left: 0 !important;
+  right: 0 !important;
+  text-align: center !important;
+  z-index: 99999 !important;
+}
+.contact-number {
+  font-size: 20px;
+  font-weight: 800;
+  color: #7fd0a0;
+  letter-spacing: 0.5px;
+  background: #11151b;
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #1e2732;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+body.log .contact-box {
+  display: inline-block !important;
+}
+#txt { font-size: 30px; font-weight: 700; margin: 0 0 8px; display: block; }
+
+/* Full page debug mode handler overrides updated to reflect the new expanded size profiles */
+body.log #wrap {
+  position: fixed !important;
+  top: 55% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 92% !important;
+  max-width: 700px !important;
+  padding: 0 !important;
+}
+body.log #state {
+  text-align: center !important;
+  font-size: 20px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-top: 12px !important;
+}
+body.log #out {
+  text-align: left !important;
+  font-size: 12px !important;
+  background: var(--sunk) !important;
+  white-space: pre-wrap !important;
+  overflow-y: auto !important;
+  width: 100% !important;
+  height: 240px !important;
+  max-height: 240px !important;
+  padding: 12px 14px !important;
+}
+.notice {
+  margin: 1em 0;
+  padding: 0.7em 1em;
+  border: 2px solid #e66;
+  background: #2a1414;
+  color: #f99;
+  font: 700 20px/1.4 var(--sans);
+}
+.byline {
+  position: fixed;
+  bottom: 9px;
+  left: 11px;
+  margin: 0;
+  color: var(--faint);
+  font: 11px/1 var(--mono);
+  letter-spacing: 0.06em;
+}
+.ok { color: var(--ok); }
+.bad { color: var(--bad); }
+.warn { color: var(--warn); }
+code { color: #9fb3d0; }
+</style>
+</head>
+<body>
+<div id="brand">
+<img src="logo_raw.png" alt="" width="28" height="28">
+</div>
+<div id="brand">
+<b>Ormoc Gaming Console Repair</b>
+</div>
+<div id="ramBox">RAM: checking...</div>
+<div id="msg">Restart your console</div>
+<!-- Centered status and expanded layout scrollable log box panel -->
+<div id="wrap">
+<br><br>
+<div id="out"></div>
+<br>
+<div id="state"></div>
+<br>
+<div id="txt">After Jailbreak Loaded Dont Run WWW Again</div>
+</div>
+<div class="contact-box">
+<div class="contact-number">Contact: Fb : Aladin F. Toel 09066876054</div>
+</div>
+
+<script type="module">
+import "./jb.js";
+</script>
+</body>
+</html>
